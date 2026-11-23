@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#232c44">
+<title>纪念日</title>
+<link rel="stylesheet" href="css/font-ma-shan-zheng.css">
+<link rel="stylesheet" href="css/font-long-cang.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/extra.css">
+</head>
+<body>
+
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- 手撕贴纸：白边 + 毛糙的撕口 -->
+    <filter id="sticker" x="-20%" y="-20%" width="140%" height="140%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="7" result="fat"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="4" result="noise"/>
+      <feDisplacementMap in="fat" in2="noise" scale="9" result="torn"/>
+      <feFlood flood-color="#fffdf6"/>
+      <feComposite in2="torn" operator="in" result="edge"/>
+      <feMerge><feMergeNode in="edge"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="sleeveStripe" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#f4ecdd"/><rect width="16" height="8" fill="#2f3f66"/>
+    </pattern>
+    <pattern id="sleeveCheck" width="14" height="14" patternUnits="userSpaceOnUse">
+      <rect width="14" height="14" fill="#fff6f4"/><rect width="7" height="14" fill="#f3b9bd" opacity=".7"/><rect width="14" height="7" fill="#f3b9bd" opacity=".7"/>
+    </pattern>
+  </defs>
+</svg>
+
+<main id="book">
+
+  <!-- 1 封面：满天星 + 相机 -->
+  <section class="page page-cover is-active" id="p-cover" data-title="封面" aria-labelledby="h-cover">
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <svg class="gyp gyp-left" id="gypLeft" viewBox="0 0 400 400" aria-hidden="true"></svg>
+    <svg class="gyp gyp-right" id="gypRight" viewBox="0 0 400 400" aria-hidden="true"></svg>
+    <div class="shots" id="shots" aria-live="polite"></div>
+    <div class="cover-body">
+      <p class="kicker" id="kicker"></p>
+      <h1 id="h-cover"></h1>
+      <p class="days">在一起的第 <b id="days">365</b> 天</p>
+      <button type="button" class="camera" id="camera" aria-label="按下快门，洗出一张我们的照片">
+        <svg viewBox="0 0 260 190" aria-hidden="true">
+          <g filter="url(#sticker)">
+            <rect x="48" y="14" width="34" height="18" rx="4" fill="#d9482b" stroke="#2b2622" stroke-width="3"/>
+            <rect x="104" y="8" width="56" height="26" rx="6" fill="#2b2622"/>
+            <rect x="14" y="28" width="232" height="140" rx="18" fill="#f4ecdd" stroke="#2b2622" stroke-width="4"/>
+            <rect x="16" y="62" width="228" height="74" fill="#c8553d"/>
+            <rect x="188" y="38" width="40" height="18" rx="4" fill="#fff8d6" stroke="#2b2622" stroke-width="3" class="camera-flash"/>
+            <circle cx="40" cy="46" r="6" fill="#ffd23f" stroke="#2b2622" stroke-width="3"/>
+            <circle cx="130" cy="100" r="52" fill="#2b2622"/>
+            <circle cx="130" cy="100" r="40" fill="#44557c"/>
+            <circle cx="130" cy="100" r="25" fill="#1b2233"/>
+            <circle cx="117" cy="87" r="8" fill="#fff" opacity=".75"/>
+            <rect x="62" y="150" width="136" height="7" rx="3.5" fill="#2b2622"/>
+          </g>
+        </svg>
+      </button>
+      <p class="hint" id="cameraHint">按一下快门，洗一张我们</p>
+    </div>
+  </section>
+
+  <!-- 2 胶卷 -->
+  <section class="page page-film" id="p-film" data-title="胶卷" aria-labelledby="h-film">
+    <header class="page-head">
+      <h2 id="h-film">这一年，拍下的你和我</h2>
+      <p class="sub">左右拖动胶卷，点一格放大</p>
+    </header>
+    <div class="strip strip-a" id="stripA" tabindex="0" aria-label="胶卷第一条"></div>
+    <div class="strip strip-b" id="stripB" tabindex="0" aria-label="胶卷第二条"></div>
+  </section>
+
+
+  <!-- 异地恋地图：我们是怎么从两个城市走到一个家的 -->
+  <section class="page page-route" id="p-route" data-title="路线图" aria-labelledby="h-route">
+    <header class="page-head">
+      <h2 id="h-route">从两个城市，到一个家</h2>
+      <p class="sub">点一站，看看当时的我们</p>
+    </header>
+    <div class="route-map" id="routeMap"></div>
+    <article class="route-card" id="routeCard" role="status" aria-live="polite">
+      <p class="route-year" id="routeYear"></p>
+      <h3 id="routeTitle"></h3>
+      <p id="routeText"></p>
+    </article>
+  </section>  <!-- 大富翁：我们这一路 -->
+  <section class="page page-board" id="p-board" data-title="大富翁" aria-labelledby="h-board">
+    <header class="page-head">
+      <h2 id="h-board">我们这一路</h2>
+      <p class="sub">掷骰子往前走，每一站都是我们的事</p>
+    </header>
+    <div class="iso-stage"><div class="iso-board" id="isoBoard" aria-hidden="true"></div></div>
+    <div class="board-hud">
+      <span class="dice" id="dice" aria-hidden="true"></span>
+      <button type="button" class="btn-roll" id="rollBtn">掷骰子</button>
+      <p class="board-say" id="boardSay" role="status"></p>
+    </div>
+    <ul class="bag" id="bag" aria-label="捡到的奖励"></ul>
+    <div class="event-card" id="eventCard" hidden role="dialog" aria-labelledby="eventTitle">
+      <div class="event-icon" id="eventIcon" aria-hidden="true"></div>
+      <p class="event-tag" id="eventTag"></p>
+      <h3 class="event-title" id="eventTitle"></h3>
+      <p class="event-text" id="eventText"></p>
+      <button type="button" class="btn-paper" id="eventOk">继续往前走</button>
+    </div>
+  </section>
+
+  <!-- 小餐桌 -->
+  <section class="page page-table" id="p-table" data-title="小餐桌" aria-labelledby="h-table">
+    <header class="page-head">
+      <h2 id="h-table">今晚吃什么，你说了算</h2>
+      <p class="sub">把不爱吃的点掉，留下最爱的</p>
+    </header>
+    <div class="table" id="table">
+      <div class="table-center">
+        <p class="table-count" id="tableCount"></p>
+      </div>
+    </div>
+    <p class="say" id="tableSay" role="status"></p>
+  </section>
+
+  <!-- 4 两只手 / 演唱会 -->
+  <section class="page page-hands" id="p-hands" data-title="门票" aria-labelledby="h-hands">
+    <div class="stage-fx" aria-hidden="true">
+      <i class="beam beam-1"></i><i class="beam beam-2"></i><i class="beam beam-3"></i><i class="beam beam-4"></i>
+      <div class="notes" id="notes"></div>
+      <div class="sticks" id="sticks"></div>
+    </div>
+    <header class="page-head">
+      <h2 id="h-hands"><span class="solo-text">以前的演唱会，一张票，一个人。</span><span class="duo-text">以后的演唱会，要多一张门票。</span></h2>
+      <p class="sub"><span class="solo-text">点一下那只手</span><span class="duo-text">连座。散场一起走。</span></p>
+    </header>
+    <button type="button" class="hands" id="hands" aria-label="点一下，多一只手，多一张门票" aria-pressed="false">
+      <span class="hand hand-1" id="hand1"></span>
+      <span class="hand hand-2" id="hand2"></span>
+      <span class="ticket-count" aria-hidden="true">门票 ×<b id="ticketCount">1</b></span>
+    </button>
+  </section>
+
+  <!-- 5 小游戏 -->
+  <section class="page page-game" id="p-game" data-title="2P 加入" aria-labelledby="h-game">
+    <header class="page-head">
+      <h2 id="h-game">本来，这个游戏只有一个玩家</h2>
+      <p class="sub">← → 移动，空格 跳，一直往右走</p>
+    </header>
+    <div class="console">
+      <div class="hud" aria-hidden="true">
+        <span class="hud-p hud-p1">1P</span>
+        <span class="hud-p hud-p2" id="hudP2">2P</span>
+        <span class="hud-hearts">♥ <b id="hudHearts">0</b></span>
+      </div>
+      <canvas id="gameCanvas" width="400" height="224" aria-label="横版跳跃小游戏画面"></canvas>
+      <p class="game-banner" id="gameBanner" role="status"></p>
+      <div class="game-overlay" id="gameOverlay">
+        <p class="game-overlay-title" id="gameOverlayTitle">PLAYER 1</p>
+        <button type="button" class="btn-pixel" id="gameStart">PRESS START</button>
+      </div>
+    </div>
+    <div class="pad">
+      <div class="pad-move">
+        <button type="button" class="pad-btn" id="padLeft" aria-label="向左">◀</button>
+        <button type="button" class="pad-btn" id="padRight" aria-label="向右">▶</button>
+      </div>
+      <button type="button" class="pad-btn pad-jump" id="padJump" aria-label="跳">跳</button>
+    </div>
+  </section>
+
+  <!-- 唱片机：换一张唱片（文字由 js/vinyl.js 按 config.music 填入） -->
+  <section class="page page-vinyl" id="p-vinyl" data-title="唱片机" aria-labelledby="h-vinyl">
+    <button type="button" class="deck" id="deck">
+      <span class="platter">
+        <span class="record record-first" id="recordFirst"></span>
+        <span class="record record-second" id="recordSecond"></span>
+      </span>
+      <span class="tonearm"></span>
+      <span class="deck-knob"></span>
+    </button>
+    <div class="vinyl-text">
+      <h2 id="h-vinyl"><span class="before" id="vinylBefore"></span><span class="after" id="vinylAfter"></span></h2>
+      <span class="count" aria-hidden="true"><span><b id="countFirst"></b><b id="countSecond"></b></span></span>
+      <p class="now-playing"><span class="before" id="playingBefore"></span><span class="after" id="playingAfter"></span></p>
+    </div>
+  </section>
+
+
+  <!-- 记忆小考：不用答对，答着答着就笑了 -->
+  <section class="page page-quiz" id="p-quiz" data-title="小考" aria-labelledby="h-quiz">
+    <header class="page-head">
+      <h2 id="h-quiz">关于我们的小考</h2>
+      <p class="sub" id="quizSub">答案我都知道，你随便猜</p>
+    </header>
+    <article class="quiz-card" id="quizCard">
+      <p class="quiz-no" id="quizNo"></p>
+      <h3 id="quizQuestion"></h3>
+      <div class="quiz-options" id="quizOptions" role="group" aria-labelledby="quizQuestion"></div>
+      <p class="quiz-say" id="quizSay" role="status"></p>
+      <div class="quiz-foot">
+        <span id="quizScore"></span>
+        <button type="button" class="btn-paper" id="quizRestart">重新考一遍</button>
+      </div>
+    </article>
+  </section>
+  <!-- 心动纸条罐 -->
+  <section class="page page-notes" id="p-notes" data-title="纸条罐" aria-labelledby="h-notes">
+    <header class="page-head">
+      <h2 id="h-notes">心动纸条罐</h2>
+      <p class="sub">不着急，一张一张抽</p>
+    </header>
+    <div class="note-jar" id="noteJar" aria-hidden="true"></div>
+    <article class="note-card" id="noteCard" role="status" aria-live="polite">
+      <p class="note-tag" id="noteTag"></p>
+      <p id="noteText">点下面的按钮，先抽一张。</p>
+    </article>
+    <button type="button" class="btn-paper" id="noteDraw">再抽一张</button>
+  </section>
+
+  <!-- 未来愿望清单 -->
+  <section class="page page-wishes" id="p-wishes" data-title="愿望清单" aria-labelledby="h-wishes">
+    <header class="page-head">
+      <h2 id="h-wishes">我们的愿望清单</h2>
+      <p class="sub">点一格就代表完成了</p>
+    </header>
+    <div class="wish-progress" aria-hidden="true"><i id="wishBar"></i></div>
+    <ul class="wish-list" id="wishList"></ul>
+    <p class="wish-say" id="wishSay" role="status">每完成一件，我们的故事就厚一页。</p>
+  </section>  <!-- 结尾：演出 × 游戏 = 合照 -->
+  <section class="page page-finale" id="p-finale" data-title="合照" aria-labelledby="h-finale">
+    <div class="finale-wrap">
+      <figure class="finale-photo">
+        <canvas id="mosaic" width="640" height="480" aria-hidden="true"></canvas>
+        <img id="finalePhoto" alt="我们的合照" width="640" height="480">
+        <figcaption><span class="tag tag-game">▦ 游戏的像素</span><span class="tag tag-live">● 演出的灯</span></figcaption>
+      </figure>
+      <div class="letter">
+        <h2 id="h-finale">拼起来，是我们</h2>
+        <div id="letterBody"></div>
+        <p class="letter-sign" id="letterSign"></p>
+        <button type="button" class="btn-paper" id="finaleReplay">再拼一次</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="放大的照片">
+  <button type="button" class="lb-nav lb-prev" id="lbPrev" aria-label="上一张">‹</button>
+  <figure class="polaroid polaroid-big">
+    <img id="lbImg" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+  <button type="button" class="lb-nav lb-next" id="lbNext" aria-label="下一张">›</button>
+  <button type="button" class="lb-close" id="lbClose" aria-label="关闭">×</button>
+</div>
+
+<div class="flash" id="flash" aria-hidden="true"></div>
+<button type="button" class="mute" id="mute" aria-pressed="false" aria-label="音乐和音效开关">♪</button>
+
+<nav class="pager" aria-label="翻页">
+  <button type="button" class="pager-arrow" id="prev" aria-label="上一页">‹</button>
+  <ol class="pager-dots" id="dots"></ol>
+  <span class="pager-title" id="pagerTitle" aria-live="polite"></span>
+  <button type="button" class="pager-arrow pager-next" id="next" aria-label="下一页">›</button>
+</nav>
+
+<script src="js/config.js"></script>
+<script src="js/mosaic-data.js"></script>
+<script src="js/logic.js"></script>
+<script src="js/game-core.js"></script>
+<script src="js/board-core.js"></script>
+<script src="js/app.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/game.js"></script>
+<script src="js/board.js"></script>
+<script src="js/route.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/notes.js"></script>
+<script src="js/wishes.js"></script>
+<script src="js/vinyl.js"></script>
+<script src="js/finale.js"></script>
+</body>
+</html>
+
+

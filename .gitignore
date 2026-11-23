@@ -1,0 +1,11 @@
+_venv-delete/
+_photos-ordered-delete/
+_zip-check-delete/
+tests/
+_index.backup.html
+css/_extra.backup.css
+photos/_overview.jpg
+.DS_Store
+Thumbs.db
+js/_config.backup.js
+README-给你的说明.txt
