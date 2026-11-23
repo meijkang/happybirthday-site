@@ -329,3 +329,7 @@
 @media (max-height: 520px) {
   .note-jar { display: none; }
 }
+  /* 结尾的拼图过程不要被系统的“减少动态效果”跳过 */
+  @media (prefers-reduced-motion: reduce) {
+    .page-finale .finale-photo img { transition: none !important; }
+  }
