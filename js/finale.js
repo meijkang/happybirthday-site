@@ -1,4 +1,4 @@
-/* 第 6 页：游戏的像素（方块）和演出的灯（光点）交错着飞进来，拼成合照 */
+/* 第 8 页：大块像素和灯光交错飞入，拼成合照 */
 (function () {
   'use strict';
 
@@ -10,20 +10,19 @@
   var ctx = canvas.getContext('2d');
   var figure = canvas.parentElement;
 
-  var FLY_MS = 2600;      // 每一粒飞行的时间
-  var SPREAD_MS = 2200;   // 出发时间错开的范围
-  var HOLD_MS = 900;      // 拼好之后停一下，再显出真照片
+  var FLY_MS = 2600;
+  var SPREAD_MS = 2200;
+  var HOLD_MS = 900;
   var LETTER_GAP_MS = 1100;
-
-  var cell = canvas.width / data.cols;
+  var COLS = 6, ROWS = 4;
+  var cell = canvas.width / COLS;
   var particles = [];
   var rafId = 0;
   var timers = [];
   var startTime = 0;
 
-  $('finalePhoto').src = data.src;
+  $('finalePhoto').src = A.config.finalePhoto || data.src;
 
-  // 信的内容
   (A.config.letter || []).forEach(function (text) {
     var p = document.createElement('p');
     p.textContent = text;
@@ -32,20 +31,26 @@
   $('letterSign').textContent = A.config.sign || '';
   var letterLines = Array.prototype.slice.call($('letterBody').children).concat([$('letterSign')]);
 
+  function colorAt(c, r) {
+    // 大块拼图不是取照片前 24 个小像素，而是均匀取整张照片的颜色。
+    var srcC = Math.floor((c + .5) / COLS * data.cols);
+    var srcR = Math.floor((r + .5) / ROWS * data.rows);
+    var i = (srcR * data.cols + srcC) * 6;
+    return '#' + data.hex.substr(i, 6);
+  }
+
   function buildParticles() {
     var random = Logic.seededRandom(Date.now());
     var list = [];
-    for (var r = 0; r < data.rows; r++) {
-      for (var c = 0; c < data.cols; c++) {
-        var i = (r * data.cols + c) * 6;
-        var isPixel = (c + r) % 2 === 0; // 棋盘格：一格像素，一格灯光，交织在一起
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var isPixel = (c + r) % 2 === 0;
         list.push({
-          color: '#' + data.hex.substr(i, 6),
+          color: colorAt(c, r),
           isPixel: isPixel,
           tx: c * cell, ty: r * cell,
-          // 像素从左下（游戏那边）来，灯光从右上（舞台那边）来
-          sx: isPixel ? -40 - random() * 260 : canvas.width + 40 + random() * 260,
-          sy: isPixel ? canvas.height * (0.5 + random() * 0.7) : -canvas.height * (0.2 + random() * 0.6),
+          sx: isPixel ? -80 - random() * 320 : canvas.width + 80 + random() * 320,
+          sy: isPixel ? canvas.height * (.5 + random() * .7) : -canvas.height * (.2 + random() * .6),
           delay: random() * SPREAD_MS,
         });
       }
@@ -65,13 +70,13 @@
       if (t === 0) continue;
       var e = easeOutCubic(t);
       var x = p.sx + (p.tx - p.sx) * e;
-      var y = p.sy + (p.ty - p.sy) * e + Math.sin(t * Math.PI) * (p.isPixel ? -60 : 40);
+      var y = p.sy + (p.ty - p.sy) * e + Math.sin(t * Math.PI) * (p.isPixel ? -50 : 34);
       ctx.fillStyle = p.color;
       if (p.isPixel) {
-        ctx.fillRect(x, y, cell, cell);
+        ctx.fillRect(x, y, cell - 1, cell - 1);
       } else {
         ctx.beginPath();
-        ctx.arc(x + half, y + half, half * (1.6 - 0.45 * e), 0, Math.PI * 2);
+        ctx.arc(x + half, y + half, half * (1.5 - .35 * e), 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -103,16 +108,12 @@
     figure.classList.remove('is-real');
     letterLines.forEach(function (line) { line.classList.remove('is-shown'); });
     particles = buildParticles();
-    // 结尾的核心体验就是飞入拼图；不跟随系统的“减少动态效果”跳过过程。
+    // 这页的核心就是飞入拼图；即使系统开了“减少动态效果”也保留。
     startTime = performance.now();
     rafId = requestAnimationFrame(tick);
   }
-
+
   A.onEnter('p-finale', play);
   A.onLeave('p-finale', stop);
   $('finaleReplay').addEventListener('click', play);
 })();
-
-
-
-

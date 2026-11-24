@@ -9,6 +9,24 @@ window.ANNIV_CONFIG = {
 
   hidePages: ['p-board', 'p-table', 'p-game'],
 
+  // 结尾拼图用哪张照片：把照片放进 photos 文件夹，然后改成文件名。
+  finalePhoto: 'photos/all.jpg',
+
+  // 演唱会门票点击后弹出的照片。也放在 photos 文件夹。
+  ticketPhoto: 'photos/sp2.jpg',
+
+  /*
+    音频放法：
+    1. 新建 D:\桌面\happybirthday-site\audio 文件夹；
+    2. 把歌曲复制进去，例如 和你.mp3；
+    3. 把下面 music 的注释去掉并按文件名改。
+    浏览器要求第一次点击页面后才允许播放。
+  */
+  // music: {
+  //   first: { file: 'audio/和你.mp3', label: '和你' },
+  //   second: { file: 'audio/第二首.mp3', label: '第二首' },
+  // },
+
   dishes: [
     { name: '黄豆鸡脚', icon: '🍗', love: true, say: '这是你的，慢慢啃。' },
     { name: '西兰花', icon: '🥦', love: false, say: '不喜欢就撤走，不勉强。' },
@@ -104,6 +122,7 @@ window.ANNIV_CONFIG = {
   ],
   sign: '—— 小梅子',
 };
+
 
 
 

@@ -261,7 +261,16 @@
     $('sticks').innerHTML = sticks;
   })();
 
+  var config = window.ANNIV_CONFIG;
+  var ticketPhoto = (config.ticketPhoto || '').trim();
   $('hands').addEventListener('click', function () {
+    if (ticketPhoto) {
+      var lightbox = $('lightbox');
+      $('lbImg').src = ticketPhoto;
+      $('lbImg').alt = '演唱会门票对应的照片';
+      $('lbCap').textContent = '两个人的连座';
+      lightbox.hidden = false;
+    }
     if ($('p-hands').classList.contains('is-duo')) return;
     $('p-hands').classList.add('is-duo');
     this.setAttribute('aria-pressed', 'true');
@@ -271,3 +280,4 @@
     setTimeout(function () { A.nudgeNext('p-hands'); }, 2200);
   });
 })();
+
