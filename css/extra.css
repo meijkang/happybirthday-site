@@ -223,21 +223,23 @@
   border-radius: 99px; background: repeating-linear-gradient(90deg, #b9d1bd 0 16px, #f4ecdd 16px 28px);
   box-shadow: 0 3px 0 rgba(43,38,34,.12);
 }
-.route-stop { position: absolute; top: 50%; translate: 0 -50%; width: 0; height: 0; }
+.route-stop { position: absolute; top: 50%; width: 0; height: 0; }
 .route-stop button {
-  position: absolute; left: 50%; top: 0; translate: -50% -50%;
-  width: clamp(30px, 4vw, 44px); aspect-ratio: 1; border-radius: 50%;
-  background: #fffdf6; border: 3px solid var(--ink);
-  display: grid; place-items: center; font-size: clamp(.9rem, 1.4vw, 1.2rem);
+  position: absolute; left: 50%; bottom: 0; translate: -50% 0;
+  width: clamp(74px, 11vw, 116px); padding: 4px 5px 5px;
+  background: #fffdf6; border: 3px solid var(--ink); border-radius: 12px 12px 7px 7px;
+  box-shadow: 0 4px 0 rgba(43,38,34,.22);
   transition: translate .18s var(--ease-back), background .18s;
 }
-.route-stop button:hover { translate: -50% -65%; }
-.route-stop[aria-current='true'] button { background: var(--sun); translate: -50% -65%; }
-.route-stop[aria-current='true']::after {
-  content: attr(data-city); position: absolute; left: 50%; top: 34px; translate: -50% 0;
+.route-stop button svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 2px 0 rgba(43,38,34,.18)); }
+.route-stop button::after { content: ""!important; display: block; width: 0; height: 0; margin: 3px auto 0; border: 9px solid transparent; border-top: 11px solid #fffdf6; filter: drop-shadow(0 2px 0 rgba(43,38,34,.22)); }
+.route-stop button:hover { translate: -50% -8px; }
+.route-stop[aria-current="true"] button { background: var(--sun); translate: -50% -10px; }
+.route-stop[aria-current="true"]::after {
+  content: attr(data-city); position: absolute; left: 50%; top: 82px; translate: -50% 0;
   white-space: nowrap; font-family: var(--font-title); font-size: clamp(1rem, 1.7vw, 1.3rem);
 }
-.route-stop[data-side='up']::after { top: auto; bottom: 34px; translate: -50% 0; }
+.route-stop[data-side='up']::after { top: auto; bottom: 82px; translate: -50% 0; }
 .route-card {
   width: min(88vw, 650px); padding: clamp(12px, 2.4vh, 24px);
   background: #fffdf6; border: 3px solid var(--ink); border-radius: 18px;
@@ -274,7 +276,7 @@
 
 @media (max-width: 560px) {
   .route-map { height: 180px; }
-  .route-stop button { width: 30px; }
+  .route-stop button { width: 62px; padding: 3px; }
 }
 
 /* ========== 心动纸条罐 ========== */
@@ -333,4 +335,6 @@
   @media (prefers-reduced-motion: reduce) {
     .page-finale .finale-photo img { transition: none !important; }
   }
+
+
 
