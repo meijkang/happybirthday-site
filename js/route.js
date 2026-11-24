@@ -5,9 +5,6 @@
   var stops = config.route || [];
 
   function $(id) { return document.getElementById(id); }
-  var map = $('routeMap');
-  if (!map || !stops.length) return;
-
   // 每个地点一个独立轮廓：沈阳故宫、南京城墙门、珠海日月贝、平山村小院、侨香公馆
   var icons = {
     '沈阳': '<path d="M8 18h24v11H8z" fill="#b5442c" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/><path d="M6 18h28l-5-6H11z" fill="#d9482b" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/><path d="M11 12h18l-3-5H14z" fill="#e36a4b" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 7h12l-2-4H16z" fill="#ffd23f" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/><path d="M12 22h16M12 26h16" stroke="#ffd23f" stroke-width="2"/>',
@@ -16,6 +13,13 @@
     '平山村': '<path d="M8 16h24v13H8z" fill="#c8553d" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/><path d="M5 16h30l-15-9z" fill="#ffd23f" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/><rect x="15" y="20" width="7" height="9" fill="#fffdf6" stroke="#2b2622" stroke-width="2"/><path d="M24 20h6v9h-6z" fill="#ffd23f" stroke="#2b2622" stroke-width="2"/><path d="M11 20h3M11 24h3" stroke="#fffdf6" stroke-width="2"/><path d="M14 7c2 2 5 2 5-2" fill="none" stroke="#8fc79a" stroke-width="2.5" stroke-linecap="round"/>',
     '侨香公馆': '<path d="M7 29V10h26v19z" fill="#f3b9bd" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/><path d="M5 10h30l-15-7z" fill="#d9482b" stroke="#2b2622" stroke-width="2.5" stroke-linejoin="round"/><rect x="11" y="14" width="6" height="5" fill="#fffdf6" stroke="#2b2622" stroke-width="2"/><rect x="23" y="14" width="6" height="5" fill="#fffdf6" stroke="#2b2622" stroke-width="2"/><rect x="11" y="22" width="6" height="5" fill="#fffdf6" stroke="#2b2622" stroke-width="2"/><rect x="23" y="22" width="6" height="5" fill="#fffdf6" stroke="#2b2622" stroke-width="2"/><path d="M17 29v-6h6v6" fill="#44557c" stroke="#2b2622" stroke-width="2"/><path d="M18 7h4v3h-4z" fill="#ffd23f" stroke="#2b2622" stroke-width="1.5"/>'
   };
+
+  // 给 preview-icons.html 复用；主页面不依赖这个变量。
+  window.ANNIV_ROUTE_ICONS = icons;
+
+  var map = $('routeMap');
+  if (!map) return; // preview-icons.html 只取 icons，不需要页面节点
+
 
   var line = document.createElement('div');
   line.className = 'route-line';
@@ -60,3 +64,7 @@
 
   window.Anniv.onEnter('p-route', function () { show(0); });
 })();
+
+
+
+

@@ -264,20 +264,22 @@
   var config = window.ANNIV_CONFIG;
   var ticketPhoto = (config.ticketPhoto || '').trim();
   $('hands').addEventListener('click', function () {
-    if (ticketPhoto) {
-      var lightbox = $('lightbox');
-      $('lbImg').src = ticketPhoto;
-      $('lbImg').alt = '演唱会门票对应的照片';
-      $('lbCap').textContent = '两个人的连座';
-      lightbox.hidden = false;
+    var page = $('p-hands');
+    if (!page.classList.contains('is-duo')) {
+      page.classList.add('is-duo');
+      this.setAttribute('aria-pressed', 'true');
+      this.setAttribute('aria-label', '两只手，两张连座的门票；再点一下看照片');
+      $('ticketCount').textContent = '2';
+      A.sfx('join');
+      return;
     }
-    if ($('p-hands').classList.contains('is-duo')) return;
-    $('p-hands').classList.add('is-duo');
-    this.setAttribute('aria-pressed', 'true');
-    this.setAttribute('aria-label', '两只手，两张连座的门票');
-    $('ticketCount').textContent = '2';
-    A.sfx('join');
-    setTimeout(function () { A.nudgeNext('p-hands'); }, 2200);
+    if (!ticketPhoto) return;
+    $('lbImg').src = ticketPhoto;
+    $('lbImg').alt = '演唱会门票对应的照片';
+    $('lbCap').textContent = '两个人的连座';
+    $('lightbox').hidden = false;
+    A.sfx('pop');
   });
 })();
+
 

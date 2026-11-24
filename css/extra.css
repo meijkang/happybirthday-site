@@ -225,7 +225,7 @@
 }
 .route-stop {
   position: absolute; top: 50%; translate: 0 -50%;
-  width: clamp(86px, 13vw, 138px); height: clamp(92px, 13vh, 128px);
+  width: clamp(68px, 10vw, 102px); height: clamp(84px, 11vh, 112px);
 }
 .route-stop-up { bottom: 50%; top: auto; translate: 0 4px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
 .route-stop-down { top: 50%; translate: 0 -4px; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; }
@@ -239,7 +239,7 @@
 .route-stop button:hover { translate: 0 -6px; }
 .route-stop[aria-current='true'] button { background: var(--sun); translate: 0 -8px; }
 .route-name {
-  margin-top: 7px; padding: .1em .55em; border-radius: 99px;
+  margin-top: 4px; padding: .1em .55em; border-radius: 99px;
   background: rgba(255,253,246,.92); border: 2px solid var(--ink);
   font-family: var(--font-title); font-size: clamp(.95rem, 1.5vw, 1.2rem); white-space: nowrap;
   box-shadow: 0 2px 0 rgba(43,38,34,.18);
@@ -284,7 +284,7 @@
 
 @media (max-width: 560px) {
   .route-map { height: 180px; }
-  .route-stop { width: 76px; height: 90px; } .route-name { font-size: .85rem; margin-top: 4px; }
+  .route-stop { width: 62px; height: 74px; } .route-name { font-size: .85rem; margin-top: 4px; }
 }
 
 /* ========== 心动纸条罐 ========== */
@@ -343,6 +343,7 @@
   @media (prefers-reduced-motion: reduce) {
     .page-finale .finale-photo img { transition: none !important; }
   }
+
 
 
 
